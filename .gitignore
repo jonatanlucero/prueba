@@ -1,0 +1,75 @@
+# Directorios de módulos de dependencias
+# ------------------------------------
+# Ignora la carpeta de dependencias de Node.js
+node_modules/
+# Si usas Yarn
+.yarn/
+# Si usas pnpm
+.pnpm-store/
+
+
+# Archivos de variables de entorno (¡CRUCIALES para la seguridad!)
+# ---------------------------------------------------------------
+# Ignora el archivo principal de variables de entorno
+.env
+# Ignora otras variantes de archivos .env (ej., .env.development.local, .env.production.local)
+.env.local
+.env.*.local
+
+
+# Directorios de compilación/salida (build/dist)
+# ---------------------------------------------
+# Para tu frontend (ej., React, Vue, Angular)
+# La carpeta de salida después de la compilación del frontend
+client/build/
+client/dist/
+
+# Para tu backend (si genera archivos compilados o binarios)
+# (Menos común en Node.js, más en lenguajes compilados como Go, Java)
+api/dist/
+api/out/
+
+
+# Archivos de logs y depuración
+# -----------------------------
+npm-debug.log*
+yarn-debug.log*
+.pnpm-debug.log*
+# Archivos de log específicos que tu aplicación pueda generar
+*.log
+logs/
+
+
+# Archivos temporales del sistema operativo y de editores
+# -----------------------------------------------------
+.DS_Store          # macOS
+Thumbs.db          # Windows
+*.swp              # Vim swap files
+.idea/             # Directorio de configuración de JetBrains IDEs (IntelliJ, WebStorm, etc.)
+.vscode/           # Directorio de configuración de VS Code (a veces es útil subirlo, a veces no)
+*.sublime-project
+*.sublime-workspace
+
+
+# Archivos y directorios específicos de Node.js/npm/yarn/pnpm
+# -----------------------------------------------------------
+# Dependencias de paquetes (archivos de caché)
+.npm/
+.yarn-cache/
+npm-debug.log
+yarn-error.log
+package-lock.json  # A veces se ignora, pero generalmente es bueno rastrearlo para versiones fijas
+pnpm-lock.yaml     # Similar a package-lock.json, generalmente bueno rastrearlo
+# Directorios de cobertura de tests
+coverage/
+.nyc_output/
+# Binarios locales
+*.tgz
+*.zip
+.tmp/
+
+# Archivos de respaldo
+*~
+*.bak
+*.old
+*.orig
