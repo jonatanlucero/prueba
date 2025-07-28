@@ -22,7 +22,7 @@ function App() {
           count is ahora esto {count}
         </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          Edit <code>src/App.jsx</code> and save to test Render
         </p>
       </div>
       <p className="read-the-docs">
