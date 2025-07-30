@@ -30,6 +30,19 @@ app.get('/', async (req, res) => {
     res.status(500).send('Error al conectar a la base de datos');
   }
 });
+app.get('/tablas', async (req, res) => {
+  try {
+    const [results] = await sequelize.query(`
+      SELECT table_name
+      FROM information_schema.tables
+      WHERE table_schema = 'public';
+    `);
+    res.json(results);
+  } catch (error) {
+    console.error('❌ Error al obtener las tablas:', error);
+    res.status(500).json({ error: 'Error al obtener las tablas' });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
