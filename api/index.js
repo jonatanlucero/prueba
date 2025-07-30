@@ -1,11 +1,17 @@
 import dotenv from 'dotenv';
-
-// Carga inmediata y forzada
-const result = dotenv.config();
-if (result.error) {
-  console.error("Error cargando .env:", result.error);
-  process.exit(1);
+if (process.env.NODE_ENV !== 'production') {
+  const result = dotenv.config();
+  if (result.error) {
+    console.warn("No se encontró archivo .env, pero está bien si estás en producción.");
+  }
 }
+
+// // Carga inmediata y forzada
+// const result = dotenv.config();
+// if (result.error) {
+//   console.error("Error cargando .env:", result.error);
+//   process.exit(1);
+// }
 
 console.log("DATABASE_URL:", process.env.DATABASE_URL);
 
