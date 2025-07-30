@@ -1,77 +1,30 @@
-import express from "express";
-import fs from "fs";
-import bodyParser from "body-parser";
+import dotenv from 'dotenv';
+
+// Carga inmediata y forzada
+const result = dotenv.config();
+if (result.error) {
+  console.error("Error cargando .env:", result.error);
+  process.exit(1);
+}
+
+console.log("DATABASE_URL:", process.env.DATABASE_URL);
+
+import express from 'express';
+import { sequelize } from './db.js';
 
 const app = express();
-app.use(bodyParser.json());
+const PORT = process.env.PORT || 3000;
 
-const readData = () => {
+app.get('/', async (req, res) => {
   try {
-    const data = fs.readFileSync("./db.json");
-    return JSON.parse(data);
+    await sequelize.authenticate();
+    res.send('✅ Conexión exitosa a PostgreSQL con Sequelize');
   } catch (error) {
-    console.log(error);
+    console.error('❌ Error al conectar a la base de datos:', error);
+    res.status(500).send('Error al conectar a la base de datos');
   }
-};
-
-const writeData = (data) => {
-  try {
-    fs.writeFileSync("./db.json", JSON.stringify(data));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-app.get("/", (req, res) => {
-  res.send("Welcome to my first API with Node js! probando render");
 });
 
-app.get("/books", (req, res) => {
-  const data = readData();
-  res.json(data.books);
-});
-
-app.get("/books/:id", (req, res) => {
-  const data = readData();
-  const id = parseInt(req.params.id);
-  const book = data.books.find((book) => book.id === id);
-  res.json(book);
-});
-
-app.post("/books", (req, res) => {
-  const data = readData();
-  const body = req.body;
-  const newBook = {
-    id: data.books.length + 1,
-    ...body,
-  };
-  data.books.push(newBook);
-  writeData(data);
-  res.json(newBook);
-});
-
-app.put("/books/:id", (req, res) => {
-  const data = readData();
-  const body = req.body;
-  const id = parseInt(req.params.id);
-  const bookIndex = data.books.findIndex((book) => book.id === id);
-  data.books[bookIndex] = {
-    ...data.books[bookIndex],
-    ...body,
-  };
-  writeData(data);
-  res.json({ message: "Book updated successfully" });
-});
-
-app.delete("/books/:id", (req, res) => {
-  const data = readData();
-  const id = parseInt(req.params.id);
-  const bookIndex = data.books.findIndex((book) => book.id === id);
-  data.books.splice(bookIndex, 1);
-  writeData(data);
-  res.json({ message: "Book deleted successfully" });
-});
-
-app.listen(3000, () => {
-  console.log("Server listening on port 3000");
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
