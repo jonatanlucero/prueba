@@ -33,9 +33,8 @@ app.get('/', async (req, res) => {
 app.get('/tablas', async (req, res) => {
   try {
     const [results] = await sequelize.query(`
-      SELECT table_name
-      FROM information_schema.tables
-      WHERE table_schema = 'public';
+      SELECT *
+      FROM usuarios;
     `);
     res.json(results);
   } catch (error) {
