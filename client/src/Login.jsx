@@ -19,10 +19,12 @@ export default function Login() {
           {/* LOGO / TITULO */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-extrabold text-gray-800 tracking-tight">
-              <span className="text-orange-500">Barrio</span> Cerro de la
-              Capilla
+              <span className="text-orange-500">Vivenza</span>  
             </h1>
-            <p className="text-sm text-gray-500 mt-1">Accedé a tu cuenta</p>
+            <h2 className="text-xl font-bold ">Gestor de Barrios Privados
+
+</h2>
+            <p className="text-sm text-gray-500 mt-4">Accedé a tu cuenta</p>
           </div>
 
           {/* FORM */}
@@ -67,11 +69,20 @@ export default function Login() {
             >
               Ingresar
             </button>
+         {/* Link para recuperar contraseña */}
+          <div className="mt-1 text-right">
+            <a
+              href="#" // Enlace a la página de recuperación de contraseña
+              className="text-xs text-gray-500 hover:text-orange-500 font-semibold transition duration-300"
+            >
+              Olvidé mi contraseña
+            </a>
+          </div>
           </form>
 
           {/* Footer */}
           <div className="mt-6 text-xs text-center text-gray-400">
-            © {new Date().getFullYear()} Barrio Cerro de la Capilla
+            © {new Date().getFullYear()} Desarrollado por <span className="font-extrabold">Punchy</span>Dev
           </div>
         </div>
       </div>
