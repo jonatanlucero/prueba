@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import apiClient from "../api/apiClient";
 
 export default function Login() {
   const {
@@ -7,8 +8,14 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     console.log("Datos enviados:", data);
+    try {
+      const response = await apiClient.post("/login", data);
+      console.log("Respuesta del servidor:", response.data);
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error.response?.data || error.message);
+    }
   };
 
   return (
@@ -73,7 +80,7 @@ export default function Login() {
           <div className="mt-1 text-right">
             <a
               href="#" // Enlace a la página de recuperación de contraseña
-              className="text-xs text-gray-500 hover:text-orange-500 font-semibold transition duration-300"
+              className="text-xs< text-gray-500 hover:text-orange-500 font-semibold transition duration-300"
             >
               Olvidé mi contraseña
             </a>
