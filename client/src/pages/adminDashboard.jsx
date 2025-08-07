@@ -12,6 +12,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useState } from "react";
+import CountUp from 'react-countup';
 
 export default function Dashboard() {
   const [notificaciones, setNotificaciones] = useState(4);
@@ -124,7 +125,9 @@ function Card({ title, value, icon, color }) {
     <div className="bg-white shadow-sm rounded-xl p-5 flex justify-between items-center">
       <div>
         <p className="text-sm text-gray-500">{title}</p>
-        <p className="text-2xl font-bold text-gray-800">{value}</p>
+        <p className="text-2xl font-bold text-gray-800">
+            <CountUp end={parseInt(value)} duration={1.5} separator="." />
+            </p>
       </div>
       <div className={`bg-${color}-100 p-2 rounded-full`}>{icon}</div>
     </div>
