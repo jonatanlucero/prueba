@@ -1,4 +1,10 @@
 import dotenv from 'dotenv';
+import express from 'express';
+import { sequelize } from './db.js';
+import router from './src/routes/apiRoutes.js';
+import bodyParser from "body-parser";
+import cors from "cors";
+
 if (process.env.NODE_ENV !== 'production') {
   const result = dotenv.config();
   if (result.error) {
@@ -15,12 +21,21 @@ if (process.env.NODE_ENV !== 'production') {
 
 console.log("DATABASE_URL:", process.env.DATABASE_URL);
 
-import express from 'express';
-import { sequelize } from './db.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "https://sog.verificacionmendoza.com.ar",
+    "http://sog.verificacionmendoza.com.ar",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"], // Incluye Authorization aquí
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.get('/', async (req, res) => {
   try {
     await sequelize.authenticate();
@@ -42,6 +57,10 @@ app.get('/tablas', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener las tablas' });
   }
 });
+// Montamos todas las rutas bajo /api
+app.use('/api', cors(corsOptions), router );
+// app.use("/api", cors(corsOptions), verifyToken, publicRouter);
+
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
