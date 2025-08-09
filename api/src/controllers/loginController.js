@@ -23,8 +23,9 @@ export const login = async (req, res) => {
         message: "No se encontró ningún usuario con ese email",
       });
     }
+return res.status(200).json(usuario);
 
-    return res.json(usuario);
+    // return res.json(usuario);
     //     const [results] = await sequelize.query(`SELECT * FROM login;`);
     //     console.log(results)
     // res.json(results);
