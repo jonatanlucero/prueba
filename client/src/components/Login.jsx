@@ -1,5 +1,8 @@
 import { useForm } from "react-hook-form";
 import apiClient from "../api/apiClient";
+import { useNavigate } from "react-router-dom";
+
+import Swal from "sweetalert2";
 
 export default function Login() {
   const {
@@ -7,14 +10,44 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
+    
     console.log("Datos enviados:", data);
     try {
       const response = await apiClient.post("/login", data);
+      console.log('el valor del res',response)
+  const usuario = response.data;
+  if (!usuario) {
+    // Por las dudas, si viene vacío igual mostramos error
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Usuario o contraseña incorrectos",
+      confirmButtonColor: "#f97316",
+    });
+    return;
+  }
+
+  // Redirigir con usuario
+  navigate("/bienvenida", { state: { usuario } });
+
       console.log("Respuesta del servidor:", response.data);
+
+      // Redirigir y pasar los datos del usuario
+      navigate("/bienvenida", { state: { usuario: response.data } }); 
     } catch (error) {
-      console.error("Error al iniciar sesión:", error.response?.data || error.message);
+  const mensaje =
+    error.response?.data?.message ||
+    "No se pudo iniciar sesión. Verificá tu conexión o credenciales.";
+
+  Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: mensaje,
+    confirmButtonColor: "#f97316",
+  });
     }
   };
 
@@ -26,11 +59,9 @@ export default function Login() {
           {/* LOGO / TITULO */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-extrabold text-gray-800 tracking-tight">
-              <span className="text-orange-500">Vivenza</span>  
+              <span className="text-orange-500">Vivenza</span>
             </h1>
-            <h2 className="text-xl font-bold ">Gestor de Barrios Privados
-
-</h2>
+            <h2 className="text-xl font-bold ">Gestor de Barrios Privados</h2>
             <p className="text-sm text-gray-500 mt-4">Accedé a tu cuenta</p>
           </div>
 
@@ -76,20 +107,21 @@ export default function Login() {
             >
               Ingresar
             </button>
-         {/* Link para recuperar contraseña */}
-          <div className="mt-1 text-right">
-            <a
-              href="#" // Enlace a la página de recuperación de contraseña
-              className="text-xs< text-gray-500 hover:text-orange-500 font-semibold transition duration-300"
-            >
-              Olvidé mi contraseña
-            </a>
-          </div>
+            {/* Link para recuperar contraseña */}
+            <div className="mt-1 text-right">
+              <a
+                href="#" // Enlace a la página de recuperación de contraseña
+                className="text-xs< text-gray-500 hover:text-orange-500 font-semibold transition duration-300"
+              >
+                Olvidé mi contraseña
+              </a>
+            </div>
           </form>
 
           {/* Footer */}
           <div className="mt-6 text-xs text-center text-gray-400">
-            © {new Date().getFullYear()} Desarrollado por <span className="font-extrabold">Punchy</span>Dev
+            © {new Date().getFullYear()} Desarrollado por{" "}
+            <span className="font-extrabold">Punchy</span>Dev
           </div>
         </div>
       </div>

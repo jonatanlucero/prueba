@@ -13,10 +13,13 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import CountUp from 'react-countup';
+import { useLocation } from "react-router-dom";
 
 export default function Dashboard() {
   const [notificaciones, setNotificaciones] = useState(4);
-
+  const location = useLocation();
+  const usuario = location.state?.usuario;
+  console.log('el usuario q traigo: ',usuario)
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
