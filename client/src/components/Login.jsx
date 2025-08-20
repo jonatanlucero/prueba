@@ -13,41 +13,40 @@ export default function Login() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    
     console.log("Datos enviados:", data);
     try {
       const response = await apiClient.post("/login", data);
-      console.log('el valor del res',response)
-  const usuario = response.data;
-  if (!usuario) {
-    // Por las dudas, si viene vacío igual mostramos error
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: "Usuario o contraseña incorrectos",
-      confirmButtonColor: "#f97316",
-    });
-    return;
-  }
+      console.log("el valor del res", response);
+      const usuario = response.data;
+      if (!usuario) {
+        // Por las dudas, si viene vacío igual mostramos error
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Usuario o contraseña incorrectos",
+          confirmButtonColor: "#f97316",
+        });
+        return;
+      }
 
-  // Redirigir con usuario
-  navigate("/bienvenida", { state: { usuario } });
+      // Redirigir con usuario
+      navigate("/bienvenida", { state: { usuario } });
 
       console.log("Respuesta del servidor:", response.data);
 
       // Redirigir y pasar los datos del usuario
-      navigate("/bienvenida", { state: { usuario: response.data } }); 
+      navigate("/bienvenida", { state: { usuario: response.data } });
     } catch (error) {
-  const mensaje =
-    error.response?.data?.message ||
-    "No se pudo iniciar sesión. Verificá tu conexión o credenciales.";
+      const mensaje =
+        error.response?.data?.message ||
+        "No se pudo iniciar sesión. Verificá tu conexión o credenciales.";
 
-  Swal.fire({
-    icon: "error",
-    title: "Error",
-    text: mensaje,
-    confirmButtonColor: "#f97316",
-  });
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: mensaje,
+        confirmButtonColor: "#f97316",
+      });
     }
   };
 

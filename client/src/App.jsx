@@ -1,24 +1,33 @@
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
-import Login from "./components/Login";
-import AdminDashboard from "./pages/adminDashboard";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { NotificacionesProvider } from "./context/NotificacionesContext";
+
+import Login from "./components/Login";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboard from "./pages/AdminDashboard";
+import AgregarUsuario from "./pages/AgregarUsuario";
+import ListaUsuarios from "./pages/ListaUsuarios";
+import Notificaciones from "./pages/Notificaciones";
+import Configuracion from "./pages/Configuracion";
 
 function App() {
-  // const [count, setCount] = useState(0)
-
   return (
-    <>
+    <NotificacionesProvider>
       <Router>
         <Routes>
+          {/* Login */}
           <Route path="/" element={<Login />} />
-          <Route path="/bienvenida" element={<AdminDashboard />} />
+
+          {/* Rutas admin con sidebar */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="usuarios" element={<AgregarUsuario />} />
+            <Route path="usuarios/lista" element={<ListaUsuarios />} />
+            <Route path="notificaciones" element={<Notificaciones />} />
+            <Route path="configuracion" element={<Configuracion />} />
+          </Route>
         </Routes>
       </Router>
-      {/* <Login /> */}
-      {/* <AdminDashboard /> */}
-    </>
+    </NotificacionesProvider>
   );
 }
 
