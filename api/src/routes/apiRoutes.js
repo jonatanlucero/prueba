@@ -1,9 +1,12 @@
 import { Router } from 'express';
 import { sequelize } from '../../db.js';
 import { login } from "../controllers/loginController.js";
+import { userAdd, userList } from '../controllers/userController.js';
 
 const router = Router();
 router.post("/login", login )
+router.post("/usuarios", userAdd)
+router.get("/usuarios", userList);
 
 // // Ruta para obtener usuarios
 // router.get('/usuarios', async (req, res) => {
