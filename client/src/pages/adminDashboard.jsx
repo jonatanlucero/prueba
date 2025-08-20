@@ -6,7 +6,7 @@ import apiClient from "../api/apiClient";
 import { list } from "postcss";
 
 export default function AdminDashboard() {
-const [listaUsuarios, setListaUsuarios] = useState([]);
+  const [listaUsuarios, setListaUsuarios] = useState([]);
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
