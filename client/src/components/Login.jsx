@@ -35,7 +35,7 @@ export default function Login() {
       console.log("Respuesta del servidor:", response.data);
 
       // Redirigir y pasar los datos del usuario
-      navigate("/bienvenida", { state: { usuario: response.data } });
+      navigate("/admin", { state: { usuario: response.data } });
     } catch (error) {
       const mensaje =
         error.response?.data?.message ||
