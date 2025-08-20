@@ -3,11 +3,12 @@ import { NotificacionesProvider } from "./context/NotificacionesContext";
 
 import Login from "./components/Login";
 import AdminLayout from "./layouts/AdminLayout";
-import AdminDashboard from "./pages/AdminDashboard";
+// import AdminDashboard from "./pages/AdminDashboard";
 import AgregarUsuario from "./pages/AgregarUsuario";
 import ListaUsuarios from "./pages/ListaUsuarios";
 import Notificaciones from "./pages/Notificaciones";
 import Configuracion from "./pages/Configuracion";
+import AdminDashboard from "./pages/adminDashboard";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
 
           {/* Rutas admin con sidebar */}
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
+            <Route index element={<AdminDashboard/>} />
             <Route path="usuarios" element={<AgregarUsuario />} />
             <Route path="usuarios/lista" element={<ListaUsuarios />} />
             <Route path="notificaciones" element={<Notificaciones />} />
