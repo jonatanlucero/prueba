@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"; // 1. Importa useEffect
 import apiClient from "../api/apiClient";
 
-export default function ListaUsuarios() {
+export default function ListaBarrios() {
   const [listaUsuarios, setListaUsuarios] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Opcional: estado de carga para mostrar un spinner/mensaje de "cargando"
   const [error, setError] = useState(null); // Opcional: estado para manejar errores

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import apiClient from "../api/apiClient";
+import Swal from "sweetalert2";
 
 export default function AgregarUsuario() {
   const {
@@ -21,12 +22,27 @@ export default function AgregarUsuario() {
 
     try {
       const response = await apiClient.post("/usuarios", data);
-      alert("Usuario agregado correctamente ✅");
-      console.log("Respuesta backend:", response.data);
+     Swal.fire({
+        icon: 'success',
+        title: '¡Usuario Agregado!',
+        text: 'El nuevo usuario ha sido registrado correctamente.',
+      });      console.log("Respuesta backend:", response.data);
       reset();
     } catch (error) {
       console.error("Error al agregar usuario:", error);
-      alert("❌ Error al agregar usuario");
+      let errorMessage = "Ocurrió un error inesperado al agregar el usuario.";
+
+      // Si el error tiene una respuesta y un mensaje del backend
+      if (error.response && error.response.data && error.response.data.error) {
+        errorMessage = error.response.data.error;
+      }
+      
+      // Reemplazar el alert de error con SweetAlert2
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: errorMessage,
+      });
     } finally {
       // 3. Establecer el estado a false al finalizar la petición (sea éxito o error)
       setIsLoading(false);

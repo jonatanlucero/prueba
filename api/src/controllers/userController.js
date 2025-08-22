@@ -17,7 +17,16 @@ export const userAdd = async (req, res) => {
     if (!nombre || !apellido || !rol || !email || !password) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
+        const searchUser = await User.findOne({
+      where: {
+        email
+      },
+    });
 
+    // 3. Si se encuentra un usuario, enviar un error 409
+    if (searchUser) {
+      return res.status(409).json({ error: "Ya existe un usuario con este email." });
+    }
     // hashear contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -39,11 +48,6 @@ export const userAdd = async (req, res) => {
         id: newUser.id,
         nombre: newUser.nombre,
         apellido: newUser.apellido,
-        rol: newUser.rol,
-        email: newUser.email,
-        manzana: newUser.manzana,
-        casa: newUser.casa,
-        telefono: newUser.telefono,
       },
     });
   } catch (error) {

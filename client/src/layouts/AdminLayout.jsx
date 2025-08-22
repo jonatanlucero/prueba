@@ -1,24 +1,64 @@
 // src/layouts/AdminLayout.jsx
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import { Home, Users, Bell, Settings, ChevronDown, ChevronRight } from "lucide-react";
+import {
+  Home,
+  Users,
+  Bell,
+  Settings,
+  ChevronDown,
+  ChevronRight,
+  MapPinHouse,
+} from "lucide-react";
 import NavItem from "../components/NavItem";
 import SubNavItem from "../components/SubNavItem";
 import { useNotificaciones } from "../context/NotificacionesContext";
 
 export default function AdminLayout() {
   const [usuariosOpen, setUsuariosOpen] = useState(false);
+  const [barriosOpen, setBarriosOpen] = useState(false);
+
   const { pendientesCount } = useNotificaciones();
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
       <aside className="w-64 bg-white shadow-md p-6">
-        <h1 className="text-2xl font-extrabold text-orange-500 mb-10">Vivenza</h1>
-        <h2 className="text-sm text-gray-600">Administración de barrios privados</h2>
+        <h1 className="text-2xl font-extrabold text-orange-500 mb-2">
+          Vivenza
+        </h1>
+        <h2 className="text-sm text-gray-600 font-bold">
+          Administración de barrios privados
+        </h2>
         <nav className="space-y-2 mt-6">
           <NavItem icon={<Home />} label="Inicio" to="/admin" />
+          {/* Submenu Barrios */}
+          <div>
+            <button
+              onClick={() => setBarriosOpen(!barriosOpen)}
+              className="flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-gray-100 text-gray-700 hover:text-orange-500 transition"
+            >
+              <div className="flex items-center space-x-2">
+                <MapPinHouse />
+                <span className="font-medium">Barrios</span>
+              </div>
+              {barriosOpen ? (
+                <ChevronDown size={16} />
+              ) : (
+                <ChevronRight size={16} />
+              )}
+            </button>
 
+            {barriosOpen && (
+              <div className="ml-8 mt-1 space-y-1">
+                <SubNavItem
+                  label="Lista de barrios"
+                  to="/admin/barrios/lista"
+                />
+                <SubNavItem label="Agregar barrio" to="/admin/barrios" />
+              </div>
+            )}
+          </div>
           {/* Submenú Usuarios */}
           <div>
             <button
@@ -29,12 +69,19 @@ export default function AdminLayout() {
                 <Users />
                 <span className="font-medium">Usuarios</span>
               </div>
-              {usuariosOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+              {usuariosOpen ? (
+                <ChevronDown size={16} />
+              ) : (
+                <ChevronRight size={16} />
+              )}
             </button>
 
             {usuariosOpen && (
               <div className="ml-8 mt-1 space-y-1">
-                <SubNavItem label="Lista de usuarios" to="/admin/usuarios/lista" />
+                <SubNavItem
+                  label="Lista de usuarios"
+                  to="/admin/usuarios/lista"
+                />
                 <SubNavItem label="Agregar usuario" to="/admin/usuarios" />
               </div>
             )}
@@ -46,7 +93,11 @@ export default function AdminLayout() {
             to="/admin/notificaciones"
             badge={pendientesCount}
           />
-          <NavItem icon={<Settings />} label="Configuración" to="/admin/configuracion" />
+          <NavItem
+            icon={<Settings />}
+            label="Configuración"
+            to="/admin/configuracion"
+          />
         </nav>
       </aside>
 
